@@ -1,0 +1,24 @@
+{
+    "name": "mahjong",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": "git+https://github.com/rabbitlive/mahjong.git",
+    "keywords": [],
+    "author": "yuffiy <yfhj1990@hotmail.com>",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/rabbitlive/mahjong/issues"
+    },
+    "homepage": "https://github.com/rabbitlive/mahjong#readme",
+    "devDependencies": {
+        "@std/esm": "^0.18.0"
+    },
+    "@std/esm": "cjs",
+    "dependencies": {
+        "lodash": "^4.17.4"
+    }
+}
