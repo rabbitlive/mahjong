@@ -45,10 +45,20 @@ class User {
   /**
    * go
    *
-   * @param {Array<Card>} cards
+   * @param {Number} index
    */
-  go(cards) {
+  go(index) {
+    // play card
+    console.log(`You choosed ${this.cards[index]}`);
+    const len = this.cards.length;
+    const newCards = [];
+    for(let i = 0; i < len; i++)
+      if(i !== index)
+        newCards.push(this.cards[i]);
+    this.cards = newCards;
 
+    // get next card
+    this.getCard(cards.shift());
   }
 
   toString() {
@@ -83,14 +93,13 @@ function makeNewCards() {
 
 
 
-
 const cards = makeNewCards();
-const current = 0;
 const A = new User('A');
 const B = new User('B');
 const C = new User('C');
 const D = new User('D');
 const users = [A, B, C, D];
+let userIndex = 0;
 
 for(let i = 0, j = 0; i < 52; i++) {
   users[j].getCard(cards.pop());
@@ -98,32 +107,49 @@ for(let i = 0, j = 0; i < 52; i++) {
 }
 
 function log() {
+  console.log('---------------DEBUG BEGIN------------------');
   users
     .forEach(user => {
       user.start();
       console.log(user.toString());
     });
-
-  console.log('Cards:');
+  console.log('Remaining Cards:');
   console.log(cards.map(String).join(' '));
-  console.log("");
-  console.log('Next: ' + cards[0].toString());
-  console.log("");
-  console.log('Next User: ' + users[current].id);
+  console.log('');
+  console.log('Remaining Cards Number:' + cards.length);
+  console.log('');
+  console.log('Next Card: ' + cards[0].toString());
+  console.log('');
+  console.log('Next User: ' + users[userIndex].id);
+  console.log('');
+  console.log(`Next Card Index -> ${users[userIndex]}
+Index:  1    2    3    4    5    6    7    8    9   10   11   12   13 `);
+  console.log('----------------DEBUG END-------------------');
+  console.log('Please choose next index: ');
 }
 
 function loop() {
   log();
-  process.stdout.write("Please enter user cards index: ");
+}
+
+function turn(num, max) {
+  return (num + 1) % max;
 }
 
 
-function main() {
 
+function main() {
   process.stdin.resume();
   loop();
-  process.stdin.once("data", function (data) {
-    loop(data.toString().trim());
+  process.stdin.on("data", function (data) {
+    const input = parseInt(data.toString().trim());
+    if (isNaN(input) || input > 13 || input < 1) {
+      console.log('Input Error, please retry: ');
+      return;
+    }
+    users[userIndex].go(input - 1);
+    userIndex = turn(userIndex, users.length);
+    loop();
   });
 }
 
